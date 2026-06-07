@@ -103,6 +103,14 @@ Windows:
 
 outputs 
 
+![kali](kalitsk2.png)
+
+![nslookup windows](nslookup%20tsk2.png)
+
+![ipconfigall](ipconfigalltsk2.png)
+
+
+
 
 
 
