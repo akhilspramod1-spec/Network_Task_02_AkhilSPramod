@@ -109,6 +109,10 @@ outputs
 
 ![ipconfigall](ipconfigalltsk2.png)
 
+![ping google](ping%20tsk1.png)
+
+
+
 
 
 
