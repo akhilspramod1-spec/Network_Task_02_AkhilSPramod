@@ -1,42 +1,42 @@
 # Network_Task_02_AkhilSPramod
-##Task: Networking Task 02 – Network Devices & IP Addressing
+## Task: Networking Task 02 – Network Devices & IP Addressing
 ---
 
-##Part A: Network Devices Research
+## Part A: Network Devices Research
 
-#Router : 
+# Router : 
 Purpose : Connects different networks together and routes data packets between them, typically connecting a home/office LAN to the Internet.
 How It Works : Operates at Layer 3 (Network Layer) of the OSI model. Uses routing tables and protocols (like OSPF, BGP) to determine the best path for each packet. Performs NAT (Network Address Translation) to map private IPs to a public IP.
 Real-World Usage : Home broadband router (e.g., TP-Link, Netgear) connects all devices in a house to the ISP. Enterprise routers connect branch offices to HQ via WAN links.
 
-#Switch :
+# Switch :
 Purpose : Connects multiple devices within the same LAN and intelligently forwards frames only to the intended destination device.
 How It Works : Operates at Layer 2 (Data Link Layer). Maintains a MAC address table (CAM table). When a frame arrives, it reads the destination MAC and forwards the frame only to the correct port, reducing unnecessary traffic (unlike a hub).
 Real-World Usage : Cisco/HP switches in office networks connect all PCs, printers, and servers. Managed switches allow VLAN segmentation and QoS configuration.
 
-#Hub :
+# Hub :
 Purpose	Connects multiple devices in a LAN but forwards incoming data to ALL connected ports, regardless of the intended destination.
 How It Works	Operates at Layer 1 (Physical Layer). Acts as a repeater – it simply amplifies and broadcasts the electrical signal to every port. All devices share the same collision domain, leading to inefficiency and collisions.
 Real-World Usage	Largely obsolete today. Was used in early Ethernet LANs. Still occasionally found in very small/cheap setups or used in labs for packet sniffing (since all traffic is visible on every port).
 
-#Access Point (AP)
+# Access Point (AP)
 Purpose:	Provides wireless (Wi-Fi) connectivity and acts as a bridge between wireless clients and the wired LAN.
 How It Works:	Operates at Layer 2. Broadcasts an SSID (Wi-Fi network name) and handles 802.11 (Wi-Fi) protocol. Devices authenticate via WPA2/WPA3 and the AP maps wireless MACs to the wired network.
 Real-World Usage:	Wi-Fi routers in homes include a built-in AP. Enterprise environments deploy standalone APs (e.g., Cisco Aironet, Ubiquiti UniFi) across floors, managed by a wireless controller.
 
-#Firewall
+# Firewall
 Purpose :	Monitors and controls incoming/outgoing network traffic based on predefined security rules. Acts as a security barrier between trusted and untrusted networks.
 How It Works:	Can operate at Layer 3/4 (packet filtering – checks IP, port, protocol) or Layer 7 (application firewall – deep packet inspection). Stateful firewalls track connection states. Rules define what traffic is ALLOW or DENY.
 Real-World Usage :	pfSense/iptables on Linux for home labs. Palo Alto, Cisco ASA, Fortinet FortiGate in enterprises. Cloud firewalls (AWS Security Groups, Azure NSG) for cloud infrastructure.
 
-#Modem
+# Modem
 Purpose :	Modulates digital signals into analog (and demodulates the reverse) to transmit data over telephone lines, cable lines, or fiber. Connects the home network to the ISP.
 How It Works :	MOdulator-DEModulator. Converts digital data from a router/PC into a signal suitable for the physical medium (DSL over phone line, DOCSIS over cable, etc.). The ISP side has a matching modem (DSLAM, CMTS) that demodulates the signal back to digital.
 Real-World Usage :	DSL modem for BSNL broadband in India. Cable modem for Hathway/ACT. Many ISPs now provide a modem+router combo device (gateway).
 
 ---
 
-###Part B: IP Address Classification
+### Part B: IP Address Classification
 RFC 1918 defines the following ranges as private (non-routable on the public Internet):
 •	10.0.0.0 – 10.255.255.255 (Class A private)
 •	172.16.0.0 – 172.31.255.255 (Class B private)
@@ -44,7 +44,7 @@ RFC 1918 defines the following ranges as private (non-routable on the public Int
 
 ---
 
-###Part C: Understanding Your Network
+### Part C: Understanding Your Network
 
 Sample Network Configuration (Lab Environment – Kali Linux VM)
 
@@ -74,9 +74,39 @@ All domain name resolution would fail. Users would be unable to browse websites 
 
 ---
 
-###Part D: Network Communication Flow – Opening www.google.com
+### Part D: Network Communication Flow – Opening www.google.com
 Communication Flow Diagram
 Your Device → Router → ISP → DNS Server → Google's IP resolved → Google's Web Server → Response returns to Device
+
+![Digram](tsk2digram.png)
+
+Step 1 – Your device: Type www.google.com → browser has no IP → sends DNS query to configured DNS server (8.8.8.8). Packet leaves via network adapter.
+Step 2 – Router/gateway: Receives query from device. Performs NAT (swaps private IP → public IP), forwards packet toward ISP and on to DNS server.
+Step 3 – DNS server: Receives query for www.google.com. Looks up authoritative records, returns IP address (e.g. 142.250.x.x) back to your device. Without this step nothing works.
+Step 4 – TCP + TLS handshake: Device uses resolved IP to open TCP connection (SYN → SYN-ACK → ACK). Then TLS handshake happens – certificates exchanged, encryption keys agreed. All data from here is encrypted.
+Step 5 – Google's web server: Receives HTTP GET / request. Processes it, responds with HTTP 200 OK + HTML/CSS/JS files broken into packets.
+Step 6 – Browser renders: TCP reassembles all incoming packets in correct order. Browser parses HTML, loads CSS/JS, renders Google homepage. Total time: typically under 200ms.
+
+---
+
+### Part E: Practical Command Exercise
+Commands to Run
+Linux (Kali):
+•	ip addr          → Shows all network interfaces and their IP addresses
+•	nslookup google.com  → Queries DNS and returns the IP address of google.com
+•	ping google.com  → Sends ICMP echo requests to test connectivity
+
+Windows:
+•	ipconfig /all    → Shows all adapter info including IP, gateway, DNS, MAC address
+•	nslookup google.com  → Same as Linux – queries DNS
+•	ping google.com  → Same as Linux – tests ICMP connectivity
+
+outputs 
+
+
+
+
+
 
 
 
