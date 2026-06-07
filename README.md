@@ -70,6 +70,15 @@ The router (default gateway at 192.168.56.1) acts as the exit point for all traf
 Q4: What would happen if the DNS server stopped working?
 All domain name resolution would fail. Users would be unable to browse websites by name (e.g., www.google.com). However, direct IP access would still work (e.g., ping 8.8.8.8). Applications that hard-code IPs would continue functioning. In practice, this makes the Internet appear 'broken' for most users since browsers rely entirely on DNS.
 
+![ipaddroute](ipaddrroute.png)
+
+---
+
+###Part D: Network Communication Flow – Opening www.google.com
+Communication Flow Diagram
+Your Device → Router → ISP → DNS Server → Google's IP resolved → Google's Web Server → Response returns to Device
+
+
 
 
 
